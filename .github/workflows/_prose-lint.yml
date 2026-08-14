@@ -26,4 +26,4 @@ jobs:
       - name: Lint prose
         env:
           FILES: ${{ inputs.files }}
-        run: npx alex $FILES
+        run: xargs npx alex <<< "$FILES"
