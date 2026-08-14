@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  commitlint:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/_commitlint.yml
+    with:
+      from-sha: ${{ github.event.pull_request.base.sha }}
+      to-sha: ${{ github.event.pull_request.head.sha }}
+
+  prose-lint:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/_prose-lint.yml
+    with:
+      files: README.md
+
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run actionlint
+        uses: docker://rhysd/actionlint:latest
+        with:
+          args: -color
+
+  release:
+    if: github.event_name == 'push'
+    needs: actionlint
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    uses: ./.github/workflows/_semrel.yml
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}

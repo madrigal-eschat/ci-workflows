@@ -1,0 +1,29 @@
+name: Prose lint
+
+on:
+  workflow_call:
+    inputs:
+      files:
+        description: >
+          Space-separated list of files or globs to lint. Defaults to README.md.
+        type: string
+        required: false
+        default: 'README.md'
+
+jobs:
+  prose-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install alex
+        run: npm install --no-save alex
+
+      - name: Lint prose
+        env:
+          FILES: ${{ inputs.files }}
+        run: npx alex $FILES
