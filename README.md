@@ -13,6 +13,7 @@ the workflows. They live here now, and version independently.
 |---|---|---|
 | `_commitlint.yml` | Conventional Commits check over a commit range | `from-sha`, `to-sha` |
 | `_prose-lint.yml` | `alex` prose lint | `files` (default `README.md`) |
+| `_markdown-lint.yml` | `markdownlint-cli2` | `files` (default `README.md`) |
 | `_kotlin-ci.yml` | Kotlin build, lint and test | — |
 | `_kotlin-coverage.yml` | Kotlin coverage report on PRs | `base-ref` |
 | `_rust-ci.yml` | `fmt`, `check`, `clippy`, `test` | — |
