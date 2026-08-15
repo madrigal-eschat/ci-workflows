@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/madrigal-eschat/ci-workflows/compare/v1.0.0...v1.1.0) (2026-08-15)
+
+
+### Features
+
+* add _markdown-lint.yml ([17da464](https://github.com/madrigal-eschat/ci-workflows/commit/17da4640512500af9783e27b0f2ffe58d2f0c7b8))
+
 # 1.0.0 (2026-08-14)
 
 
