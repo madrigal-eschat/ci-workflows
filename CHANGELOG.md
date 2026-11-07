@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/madrigal-eschat/ci-workflows/compare/v1.1.0...v1.2.0) (2026-11-07)
+
+
+### Features
+
+* add reusable Node CI, coverage and gitleaks workflows ([2a57264](https://github.com/madrigal-eschat/ci-workflows/commit/2a57264bc607d875d3902fdcd1be8b804414eb81))
+
 # [1.1.0](https://github.com/madrigal-eschat/ci-workflows/compare/v1.0.0...v1.1.0) (2026-08-15)
 
 
