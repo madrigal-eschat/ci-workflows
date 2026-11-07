@@ -16,8 +16,7 @@ the workflows. They live here now, and version independently.
 | `_markdown-lint.yml` | `markdownlint-cli2` | `files` (default `README.md`) |
 | `_kotlin-ci.yml` | Kotlin build, lint and test | — |
 | `_kotlin-coverage.yml` | Kotlin coverage report on PRs | `base-ref` |
-| `_node-ci.yml` | Node install, lint, typecheck and test | `working-directory`, `node-version-file` |
-| `_node-coverage.yml` | Node diff coverage gate (100%) | `working-directory`, `node-version-file`, `base-ref`, `coverage-file` |
+| `_node-ci.yml` | Node install, lint, typecheck, test with coverage, and a 100% diff-coverage gate on PRs. The `test` script must accept `--coverage` and write an LCOV report (e.g. vitest with a coverage provider and the `lcov` reporter writing `coverage/lcov.info`) | `working-directory`, `node-version-file`, `diff-coverage`, `base-ref`, `coverage-file` |
 | `_gitleaks.yml` | Full-history secret scan | — |
 | `_rust-ci.yml` | `fmt`, `check`, `clippy`, `test` | — |
 | `_rust-coverage.yml` | Rust coverage report on PRs | `base-ref` |

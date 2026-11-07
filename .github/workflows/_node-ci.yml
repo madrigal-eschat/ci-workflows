@@ -13,6 +13,23 @@ on:
         type: string
         required: false
         default: '.nvmrc'
+      diff-coverage:
+        description: >-
+          Require 100% coverage of changed lines on pull requests. The caller's
+          `test` script must accept `--coverage` and write an LCOV report.
+        type: boolean
+        required: false
+        default: true
+      base-ref:
+        description: Base branch name to diff against (e.g. main).
+        type: string
+        required: false
+        default: main
+      coverage-file:
+        description: LCOV report path, relative to the Node project root.
+        type: string
+        required: false
+        default: coverage/lcov.info
 
 jobs:
   ci:
@@ -23,6 +40,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -40,5 +59,17 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Test
-        run: npm test
+      - name: Test with coverage
+        run: npm test -- --coverage
+
+      - name: Install diff-cover
+        if: github.event_name == 'pull_request' && inputs.diff-coverage
+        run: pip install diff-cover
+
+      - name: Check diff coverage
+        if: github.event_name == 'pull_request' && inputs.diff-coverage
+        run: >
+          diff-cover ${{ inputs.coverage-file }}
+          --compare-branch=origin/${{ inputs.base-ref }}
+          --fail-under=100
+          --diff-range-notation=...
