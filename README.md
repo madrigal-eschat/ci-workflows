@@ -16,6 +16,8 @@ the workflows. They live here now, and version independently.
 | `_markdown-lint.yml` | `markdownlint-cli2` | `files` (default `README.md`) |
 | `_kotlin-ci.yml` | Kotlin build, lint and test | — |
 | `_kotlin-coverage.yml` | Kotlin coverage report on PRs | `base-ref` |
+| `_node-ci.yml` | Node install, lint, typecheck, test with coverage, and a 100% diff-coverage gate on PRs. The `test` script must accept `--coverage` and write an LCOV report (e.g. vitest with a coverage provider and the `lcov` reporter writing `coverage/lcov.info`) | `working-directory`, `node-version-file`, `diff-coverage`, `base-ref`, `coverage-file` |
+| `_gitleaks.yml` | Full-history secret scan | — |
 | `_rust-ci.yml` | `fmt`, `check`, `clippy`, `test` | — |
 | `_rust-coverage.yml` | Rust coverage report on PRs | `base-ref` |
 | `_rust-release-assets.yml` | Build a binary and attach it to a release | `binary-name`, `release-tag` |
@@ -34,6 +36,11 @@ jobs:
 
 Do not reference `@main`. A bad push here would otherwise reach every consumer
 immediately, with no version to roll back to.
+
+Repositories should call `_gitleaks.yml` from workflows triggered by both
+pull requests and pushes. The reusable workflow scans the full Git history and
+fails on findings; fix secrets in the current tree rather than adding ignore
+entries.
 
 `_semrel.yml` takes an optional `GH_TOKEN` secret — a fine-grained PAT with
 `contents`, `issues` and `pull-requests` write. Without it the workflow falls back
