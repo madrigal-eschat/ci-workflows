@@ -1,0 +1,44 @@
+name: Node CI
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Path to the Node project root, relative to the repo root.
+        type: string
+        required: false
+        default: '.'
+      node-version-file:
+        description: Path to the Node version file, relative to the repo root.
+        type: string
+        required: false
+        default: '.nvmrc'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ${{ inputs.node-version-file }}
+          cache: npm
+          cache-dependency-path: >-
+            ${{ inputs.working-directory }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
